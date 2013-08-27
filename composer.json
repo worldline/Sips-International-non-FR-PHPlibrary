@@ -1,0 +1,6 @@
+{   
+    "name": "marlon-be/marlon-sips",
+    "autoload": {
+        "psr-0": { "Sips": "lib/" }
+    }
+}
