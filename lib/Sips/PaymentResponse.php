@@ -3,27 +3,89 @@
 namespace Sips;
 
 use \InvalidArgumentException;
-use \SimpleXMLElement;
+use Sips\ShaComposer\ShaComposer;
 
 class PaymentResponse
 {   
+    /** @var string */
+    const SHASIGN_FIELD = "SEAL";
+    
+    /** @var string */
+    const DATA_FIELD = "DATA";
+    
+    private $sipsFields = array(
+        "captureDay", "captureMode", "currencyCode", "merchantId",
+        "orderChannel", "responseCode", "transactionDateTime", "transactionReference",
+        "keyVersion", "acquirerResponseCode", "amount", "authorisationId",
+        "guaranteeIndicator", "cardCSCResultCode", "panExpiryDate", "paymentMeanBrand",
+        "paymentMeanType", "complementaryCode", "complementaryInfo", "customerIpAddress",
+        "maskedPan", "merchantTransactionDateTime", "holderAuthentRelegation", "transactionOrigin",
+        "paymentPattern"                        
+    );
+    
     /**     
      * @var array
      */
     private $parameters;
     
+    /**    
+     * @var string
+     */
+    private $shaSign;
+    
+    /**     
+     * @param array $httpRequest Typically $_REQUEST
+     * @throws \InvalidArgumentException
+     */
     public function __construct(array $httpRequest)
     {        
-        $xmlResponse = new SimpleXMLElement(base64_decode(strtr($httpRequest['base64Response'], '-_,', '+/=')));
+        // use lowercase internally
+        $httpRequest = array_change_key_case($httpRequest, CASE_UPPER);
         
-        $this->convertXmlResponse($xmlResponse);
+        // set sha sign        
+        $this->shaSign = $this->extractShaSign($httpRequest);
+        
+        // filter request for Sips parameters
+        $this->parameters = $this->filterRequestParameters($httpRequest);        
     }
     
-    private function convertXmlResponse($xmlResponse)
+    /**
+     * Filter http request parameters
+     * @param array $requestParameters    
+     */
+    private function filterRequestParameters(array $httpRequest)
     {
-        foreach ($xmlResponse->response[0]->attributes() as $key => $value) {
-            $this->parameters[strtoupper($key)] = (string) $value;
-        }
+        //filter request for Sips parameters
+        if(!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
+			throw new InvalidArgumentException('Data parameter not present in parameters.');
+		}
+        $parameters = array();
+        $dataString = $httpRequest[self::DATA_FIELD];
+        $dataParams = explode('|', $dataString);
+        foreach($dataParams as $dataParamString) {
+            $dataKeyValue = explode('=',$dataParamString);
+            $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
+        }                
+        
+        return array_intersect_key($parameters, array_flip($this->sipsFields));                
+    }
+      
+    private function extractShaSign(array $parameters)
+    {
+        if(!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
+			throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
+		}
+		return $parameters[self::SHASIGN_FIELD];
+    }
+    
+    /**
+     * Checks if the response is valid
+     * @param ShaComposer $shaComposer
+     * @return bool
+     */
+    public function isValid(ShaComposer $shaComposer)
+    {
+        return $shaComposer->compose($this->parameters) == $this->shaSign;
     }
     
     /**
@@ -40,11 +102,12 @@ class PaymentResponse
 		// always use uppercase
 		$key = strtoupper($key);
 
-		if(!array_key_exists($key, $this->parameters)) {
+        $parameters = array_change_key_case($this->parameters,CASE_UPPER);
+		if(!array_key_exists($key, $parameters)) {
 			throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');
 		}
 
-		return $this->parameters[$key];
+		return $parameters[$key];
 	}
     
     /**
@@ -52,25 +115,8 @@ class PaymentResponse
 	 */
 	public function getAmount()
 	{
-		$value = trim($this->parameters['AMOUNT']);
-
-		$withoutDecimals = '#^\d*$#';
-		$oneDecimal = '#^\d*\.\d$#';
-		$twoDecimals = '#^\d*\.\d\d$#';
-
-		if(preg_match($withoutDecimals, $value)) {
-			return (int) ($value.'00');
-		}
-
-		if(preg_match($oneDecimal, $value)) {
-			return (int) (str_replace('.', '', $value).'0');
-		}
-
-		if(preg_match($twoDecimals, $value)) {
-			return (int) (str_replace('.', '', $value));
-		}
-
-		throw new \InvalidArgumentException("Not a valid currency amount");
+		$value = trim($this->parameters['amount']);		
+        return (int) ($value);		
 	}
     
     public function isSuccessful()

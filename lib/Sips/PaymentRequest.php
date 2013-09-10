@@ -147,42 +147,15 @@ class PaymentRequest
 			throw new InvalidArgumentException("Invalid language locale");
 		}
 		$this->parameters['customerLanguage'] = $language;
-	}
+	}         
     
-    public function setBrand($brand) {
-        $brand = strtoupper($brand);
-        if(!array_key_exists($brand, $this->brandsmap)) {
-            throw new InvalidArgumentException("Unknown Brand [$brand].");            
-        }
-        $this->setPaymentMethod($this->brandsmap[$brand]);
-        $this->parameters['paymentMeanBrand'] = $brand;
-    }
-    
-    public function setPaymentMethod($paymentMethod)
+    public function setPaymentBrand($brand)
     {
-        $this->setPm($paymentMethod);
-    }
-    
-    public function setPm($pm)
-    {
-        $pm = strtoupper($pm);
-        if(!in_array($pm, $this->brandsmap)) {
-            throw new InvalidArgumentException("Unknown Payment method [$pm].");
+        $this->parameters['paymentMeanBrandList'] = '';                    
+        if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
+            throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
-        $this->parameters['paymentMeanType'] = $pm;        
-    }
-    
-    public function setAllowedPaymentBrands(array $brands)
-    {
-        $this->parameters['paymentMeanBrandList'] = '';
-        foreach($brands as $brand) {
-            
-            if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
-                throw new InvalidArgumentException("Unknown Brand [$brand].");
-            }
-            $this->parameters['paymentMeanBrandList'] .= strtoupper($brand);            
-            $this->parameters['paymentMeanBrandList'] .= (array_search(strtolower($brand), array_keys($brands)) != (count($brands)-1)) ? ',' : '' ;
-        }
+        $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
     
     public function setBillingContactEmail($email)
@@ -228,11 +201,6 @@ class PaymentRequest
 		$this->parameters['billingAddress.city'] = $city;
     }
     
-    public function setOwnerCountry($ownercountry)
-    {
-        
-    }
-
     public function setBillingContactPhone($phone)
     {
         if(strlen($phone) > 30) {
@@ -243,7 +211,7 @@ class PaymentRequest
     
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', $firstname); // replace quotes
+        $this->parameters['billingContact.firstname'] = (str_replace(array("'", '"'), '', $firstname)); // replace quotes
     }
     
     public function setBillingContactLastname($lastname)
@@ -281,7 +249,7 @@ class PaymentRequest
     {
         $parameterString = "";
         foreach($this->parameters as $key => $value) {
-            $parameterString .= $key . '=' . $value;            
+            $parameterString .= $key . '=' . $value;
             $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters)-1)) ? '|' : '';
         }
         
