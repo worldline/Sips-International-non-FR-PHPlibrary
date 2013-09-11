@@ -9,6 +9,7 @@ use \InvalidArgumentException;
 class PaymentRequest
 {
     const TEST = "https://payment-webinit.simu.sips-atos.com/paymentInit";
+    const PRODUCTION = "https://payment-webinit.test.sips-atos.com/paymentInit";
     
     private $brandsmap = array(
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
@@ -211,7 +212,7 @@ class PaymentRequest
     
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = (str_replace(array("'", '"'), '', $firstname)); // replace quotes
+        $this->parameters['billingContact.firstname'] = base64_encode(str_replace(array("'", '"'), '', $firstname)); // replace quotes
     }
     
     public function setBillingContactLastname($lastname)
