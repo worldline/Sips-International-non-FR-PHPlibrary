@@ -212,7 +212,7 @@ class PaymentRequest
     
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = base64_encode(str_replace(array("'", '"'), '', $firstname)); // replace quotes
+        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', $firstname); // replace quotes
     }
     
     public function setBillingContactLastname($lastname)
