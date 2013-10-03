@@ -8,34 +8,34 @@ use Sips\ParameterFilter\ParameterFilter;
 
 class AllParametersShaComposer implements ShaComposer
 {
-    /**    
+    /**
      * @var string Passphrase
      */
     private $passphrase;
-    
+
     /** @var array of ParameterFilter */
     private $parameterFilters;
-    
-    /**     
+
+    /**
      * @param \Sips\Passphrase $passphrase
      */
     public function __construct(Passphrase $passphrase)
     {
         $this->passphrase = $passphrase;
     }
-    
+
     public function compose(array $parameters)
     {
         // compose SHA string
         $shaString = '';
         foreach($parameters as $key => $value) {
             $shaString .= $key . '=' . $value;
-            $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters)-1)) ? '|' : $this->passphrase;            
+            $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters)-1)) ? '|' : $this->passphrase;
         }
-        
+
         return hash('sha256', $shaString);
     }
-    
+
     public function addParameterFilter(ParameterFilter $parameterFilter)
     {
         $this->parameterFilters[] = $parameterFilter;
