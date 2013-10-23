@@ -2,3 +2,4 @@ nbproject/*
 vendor/*
 build/*
 .idea
+phpunit.xml
