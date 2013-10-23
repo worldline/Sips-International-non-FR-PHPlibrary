@@ -10,7 +10,7 @@ class PaymentRequest
 {
     const TEST = "https://payment-webinit.simu.sips-atos.com/paymentInit";
     const PRODUCTION = "https://payment-webinit.test.sips-atos.com/paymentInit";
-    
+
     private $brandsmap = array(
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
         'AMEX' => 'CARD',
@@ -30,20 +30,20 @@ class PaymentRequest
         'VISA' => 'CARD',
         'VPAY' => 'CARD',
         'VISA ELECTRON' => 'CARD',
-    );    
-    
+    );
+
     /** @var ShaComposer */
     private $shaComposer;
-    
+
     private $sipsUri = self::TEST;
-    
+
     private $parameters = array();
-    
+
     private $sipsFields = array(
-        'amount', 'currencyCode', 'merchantId', 'normalReturnUrl', 
-        'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage', 
+        'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
+        'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage',
         'billingAddress.city', 'billingAddress.company', 'billingAddress.country',
-        'billingAddress', 'billingAddress.postBox', 'billingAddress.state', 
+        'billingAddress', 'billingAddress.postBox', 'billingAddress.state',
         'billingAddress.street', 'billingAddress.streetNumber', 'billingAddress.zipCode',
         'billingContact.email', 'billingContact.firstname', 'billingContact.gender',
         'billingContact.lastname', 'billingContact.mobile', 'billingContact.phone',
@@ -52,70 +52,71 @@ class PaymentRequest
         'customerAddress.street', 'customerAddress.streetNumber', 'customerAddress.zipCode',
         'customerContact', 'customerContact.email', 'customerContact.firstname',
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
-        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl'
+        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
+        'templateName'
     );
-    
+
     private $requiredFields = array(
-        'amount', 'currencyCode', 'merchantId', 'normalReturnUrl', 
+        'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
         'transactionReference', 'keyVersion'
     );
-    
+
     public $allowedcurrencies = array(
-        'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826', 
+        'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
         'CAD' => '124', 'JPY' => '392', 'MXP' => '484', 'TRY' => '949',
         'AUD' => '036', 'NZD' => '554', 'NOK' => '578', 'BRC' => '986',
         'ARP' => '032', 'KHR' => '116', 'TWD' => '901', 'SEK' => '752',
         'DKK' => '208', 'KRW' => '410', 'SGD' => '702', 'XPF' => '953',
-        'XOF' => '952'        
+        'XOF' => '952'
     );
-    
+
     public $allowedlanguages = array(
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
     );
-        
+
     public function __construct(ShaComposer $shaComposer)
     {
         $this->shaComposer = $shaComposer;
     }
-    
+
     /** @return string */
     public function getShaSign()
     {
         return $this->shaComposer->compose($this->toArray());
     }
-    
+
     /** @return string */
     public function getSipsUri()
     {
         return $this->sipsUri;
     }
-    
+
     public function setSipsUri($sipsUri)
     {
         $this->validateUri($sipsUri);
         $this->sipsUri = $sipsUri;
     }
-    
+
     public function setNormalReturnUrl($url)
     {
         $this->validateUri($url);
         $this->parameters['normalReturnUrl'] = $url;
     }
-    
+
     public function setAutomaticResponseUrl($url)
     {
         $this->validateUri($url);
         $this->parameters['automaticResponseUrl'] = $url;
     }
-    
+
     public function setTransactionReference($transactionReference)
-    {        
+    {
         if(preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
             throw new \InvalidArgumentException("TransactionReference cannot contain special characters");
         }
         $this->parameters['transactionReference'] = $transactionReference;
     }
-    
+
     /**
 	 * Set amount in cents, eg EUR 12.34 is written as 1234
 	 */
@@ -133,7 +134,7 @@ class PaymentRequest
 		$this->parameters['amount'] = $amount;
 
 	}
-    
+
     public function setCurrency($currency)
 	{
 		if(!array_key_exists(strtoupper($currency), $this->allowedcurrencies)) {
@@ -141,24 +142,24 @@ class PaymentRequest
 		}
 		$this->parameters['currencyCode'] = $this->allowedcurrencies[$currency];
 	}
-        	
+
 	public function setLanguage($language)
 	{
 		if(!in_array($language, $this->allowedlanguages)) {
 			throw new InvalidArgumentException("Invalid language locale");
 		}
 		$this->parameters['customerLanguage'] = $language;
-	}         
-    
+	}
+
     public function setPaymentBrand($brand)
     {
-        $this->parameters['paymentMeanBrandList'] = '';                    
+        $this->parameters['paymentMeanBrandList'] = '';
         if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
             throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
-    
+
     public function setBillingContactEmail($email)
     {
         if(strlen($email) > 50) {
@@ -169,7 +170,7 @@ class PaymentRequest
 		}
 		$this->parameters['billingContact.email'] = $email;
     }
-    
+
     public function setBillingAddressStreet($street)
     {
         if(strlen($street) > 35) {
@@ -177,15 +178,15 @@ class PaymentRequest
 		}
 		$this->parameters['billingAddress.street'] = $street;
     }
-    
+
     public function setBillingAddressStreetNumber($nr)
     {
         if(strlen($nr) > 10) {
 			throw new InvalidArgumentException("streetNumber is too long");
 		}
         $this->parameters['billingAddress.streetNumber'] = $nr;
-    }                        
-    
+    }
+
     public function setBillingAddressZipCode($zipCode)
     {
         if(strlen($zipCode) > 10) {
@@ -193,7 +194,7 @@ class PaymentRequest
 		}
 		$this->parameters['billingAddress.zipCode'] = $zipCode;
     }
-    
+
     public function setBillingAddressCity($city)
     {
         if(strlen($city) > 25) {
@@ -201,7 +202,7 @@ class PaymentRequest
 		}
 		$this->parameters['billingAddress.city'] = $city;
     }
-    
+
     public function setBillingContactPhone($phone)
     {
         if(strlen($phone) > 30) {
@@ -209,12 +210,12 @@ class PaymentRequest
 		}
 		$this->parameters['billingContact.phone'] = $phone;
     }
-    
+
     public function setBillingContactFirstname($firstname)
     {
         $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', $firstname); // replace quotes
     }
-    
+
     public function setBillingContactLastname($lastname)
     {
         $this->parameters['billingContact.lastname'] = str_replace(array("'", '"'), '', $lastname); // replace quotes
@@ -229,7 +230,7 @@ class PaymentRequest
                 return;
             }
         }
-        
+
         if(substr($method, 0, 3) == 'get') {
 			$field = lcfirst(substr($method, 3));
 			if(array_key_exists($field, $this->parameters)) {
@@ -239,13 +240,13 @@ class PaymentRequest
 
 		throw new BadMethodCallException("Unknown method $method");
     }
-            
+
     public function toArray()
     {
         $this->validate();
         return $this->parameters;
     }
-    
+
     public function toParameterString()
     {
         $parameterString = "";
@@ -253,10 +254,10 @@ class PaymentRequest
             $parameterString .= $key . '=' . $value;
             $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters)-1)) ? '|' : '';
         }
-        
+
         return $parameterString;
     }
-    
+
     /** @return PaymentRequest */
     public static function createFromArray(ShaComposer $shaComposer, array $parameters)
     {
@@ -267,7 +268,7 @@ class PaymentRequest
         }
         return $instance;
     }
-    
+
     public function validate()
     {
         foreach($this->requiredFields as $field) {
@@ -276,7 +277,7 @@ class PaymentRequest
             }
         }
     }
-    
+
     protected function validateUri($uri)
     {
         if(!filter_var($uri, FILTER_VALIDATE_URL)) {
