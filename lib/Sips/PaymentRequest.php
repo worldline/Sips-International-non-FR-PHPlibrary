@@ -52,7 +52,8 @@ class PaymentRequest
         'customerAddress.street', 'customerAddress.streetNumber', 'customerAddress.zipCode',
         'customerContact', 'customerContact.email', 'customerContact.firstname',
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
-        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl'
+        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
+        'templateName'
     );
 
     private $requiredFields = array(
@@ -117,38 +118,38 @@ class PaymentRequest
     }
 
     /**
-     * Set amount in cents, eg EUR 12.34 is written as 1234
-     */
-    public function setAmount($amount)
-    {
-        if(!is_int($amount)) {
-            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
-        }
-        if($amount <= 0) {
-            throw new InvalidArgumentException("Amount must be a positive number");
-        }
-        if($amount >= 1.0E+15) {
-            throw new InvalidArgumentException("Amount is too high");
-        }
-        $this->parameters['amount'] = $amount;
+	 * Set amount in cents, eg EUR 12.34 is written as 1234
+	 */
+	public function setAmount($amount)
+	{
+		if(!is_int($amount)) {
+			throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+		}
+		if($amount <= 0) {
+			throw new InvalidArgumentException("Amount must be a positive number");
+		}
+		if($amount >= 1.0E+15) {
+			throw new InvalidArgumentException("Amount is too high");
+		}
+		$this->parameters['amount'] = $amount;
 
-    }
+	}
 
     public function setCurrency($currency)
-    {
-        if(!array_key_exists(strtoupper($currency), $this->allowedcurrencies)) {
-            throw new InvalidArgumentException("Unknown currency");
-        }
-        $this->parameters['currencyCode'] = $this->allowedcurrencies[$currency];
-    }
+	{
+		if(!array_key_exists(strtoupper($currency), $this->allowedcurrencies)) {
+			throw new InvalidArgumentException("Unknown currency");
+		}
+		$this->parameters['currencyCode'] = $this->allowedcurrencies[$currency];
+	}
 
-    public function setLanguage($language)
-    {
-        if(!in_array($language, $this->allowedlanguages)) {
-            throw new InvalidArgumentException("Invalid language locale");
-        }
-        $this->parameters['customerLanguage'] = $language;
-    }
+	public function setLanguage($language)
+	{
+		if(!in_array($language, $this->allowedlanguages)) {
+			throw new InvalidArgumentException("Invalid language locale");
+		}
+		$this->parameters['customerLanguage'] = $language;
+	}
 
     public function setPaymentBrand($brand)
     {
