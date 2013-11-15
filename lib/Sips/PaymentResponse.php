@@ -19,11 +19,12 @@ class PaymentResponse
         "keyVersion", "acquirerResponseCode", "amount", "authorisationId",
         "guaranteeIndicator", "cardCSCResultCode", "panExpiryDate", "paymentMeanBrand",
         "paymentMeanType", "complementaryCode", "complementaryInfo", "customerIpAddress",
-        "maskedPan", "merchantTransactionDateTime", "holderAuthentRelegation", "transactionOrigin",
-        "paymentPattern","customerMobilePhone","mandateAuthentMethod","mandateUsage","transactionActors",
-        "mandateId","captureLimitDate","dccStatus","dccResponseCode","dccAmount","dccCurrencyCode","dccExchangeRate",
-        "dccExchangeRateValidity","dccProvider","statementReference","panEntryMode","walletType","holderAuthentMethod",
-        "scoreValue","scoreColor","scoreInfo","scoreThreshold","holderAuthentStatus", "scoreProfile"
+        "maskedPan", "merchantTransactionDateTime", "scoreValue", "scoreColor", "scoreInfo",
+        "scoreProfile", "scoreThreshold", "holderAuthentRelegation", "holderAuthentStatus",
+        "transactionOrigin", "paymentPattern","customerMobilePhone","mandateAuthentMethod",
+        "mandateUsage","transactionActors", "mandateId","captureLimitDate","dccStatus",
+        "dccResponseCode","dccAmount","dccCurrencyCode","dccExchangeRate", "dccExchangeRateValidity",
+        "dccProvider","statementReference","panEntryMode","walletType","holderAuthentMethod"
     );
 
     /**
@@ -73,7 +74,8 @@ class PaymentResponse
             $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
         }
 
-        return array_intersect_key($parameters, array_flip($this->sipsFields));
+        return $parameters;
+        //return array_intersect_key($parameters, array_flip($this->sipsFields));
     }
 
     public function getSeal()
