@@ -23,7 +23,7 @@ class PaymentResponse
         "paymentPattern","customerMobilePhone","mandateAuthentMethod","mandateUsage","transactionActors",
         "mandateId","captureLimitDate","dccStatus","dccResponseCode","dccAmount","dccCurrencyCode","dccExchangeRate",
         "dccExchangeRateValidity","dccProvider","statementReference","panEntryMode","walletType","holderAuthentMethod",
-        "scoreValue","scoreColor","scoreInfo","scoreThreshold","holderAuthentRelegation","holderAuthentStatus"
+        "scoreValue","scoreColor","scoreInfo","scoreThreshold","holderAuthentStatus", "scoreProfile"
     );
 
     /**
@@ -112,7 +112,6 @@ class PaymentResponse
 
         // always use uppercase
         $key = strtoupper($key);
-
         $parameters = array_change_key_case($this->parameters,CASE_UPPER);
         if(!array_key_exists($key, $parameters)) {
             throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');

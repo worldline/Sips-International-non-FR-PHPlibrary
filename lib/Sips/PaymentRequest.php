@@ -52,7 +52,8 @@ class PaymentRequest
         'customerAddress.street', 'customerAddress.streetNumber', 'customerAddress.zipCode',
         'customerContact', 'customerContact.email', 'customerContact.firstname',
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
-        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl'
+        'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
+        'templateName','paymentMeanBrandList'
     );
     
     private $requiredFields = array(
@@ -126,9 +127,6 @@ class PaymentRequest
 		}
 		if($amount <= 0) {
 			throw new InvalidArgumentException("Amount must be a positive number");
-		}
-		if($amount >= 1.0E+15) {
-			throw new InvalidArgumentException("Amount is too high");
 		}
 		$this->parameters['amount'] = $amount;
 

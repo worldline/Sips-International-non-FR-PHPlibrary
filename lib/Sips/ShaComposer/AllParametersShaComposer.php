@@ -13,9 +13,6 @@ class AllParametersShaComposer implements ShaComposer
      */
     private $passphrase;
 
-    /** @var array of ParameterFilter */
-    private $parameterFilters;
-
     /**
      * @param \Sips\Passphrase $passphrase
      */
@@ -34,10 +31,5 @@ class AllParametersShaComposer implements ShaComposer
         }
 
         return hash('sha256', $shaString);
-    }
-
-    public function addParameterFilter(ParameterFilter $parameterFilter)
-    {
-        $this->parameterFilters[] = $parameterFilter;
     }
 }
