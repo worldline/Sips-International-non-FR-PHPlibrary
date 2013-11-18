@@ -125,7 +125,7 @@ class PaymentRequest
 
     public function setCurrency($currency)
 	{
-		if(!array_key_exists(strtoupper($currency), SipsCurrency::$currencies)) {
+		if(!array_key_exists(strtoupper($currency), SipsCurrency::getCurrencies())) {
 			throw new InvalidArgumentException("Unknown currency");
 		}
 		$this->parameters['currencyCode'] = SipsCurrency::convertCurrencyToSipsCurrencyCode($currency);

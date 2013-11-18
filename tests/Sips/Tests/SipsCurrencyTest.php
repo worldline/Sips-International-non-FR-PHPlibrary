@@ -9,6 +9,7 @@ class SipsCurrencyTest extends \TestCase
     /** @test */
     public function HasCurrencyList()
     {
+        $sipsCurrency = new SipsCurrency();
         $this->assertEquals(
             array(
                 'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
@@ -18,7 +19,7 @@ class SipsCurrencyTest extends \TestCase
                 'DKK' => '208', 'KRW' => '410', 'SGD' => '702', 'XPF' => '953',
                 'XOF' => '952'
             ),
-            SipsCurrency::$currencies
+            $sipsCurrency->getCurrencies()
         );
     }
 
