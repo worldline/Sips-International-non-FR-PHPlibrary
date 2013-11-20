@@ -16,14 +16,13 @@ The library complies to the [PSR-0 standard](http://groups.google.com/group/php-
 so it can be autoloaded using PSR-0 classloaders like the one in Symfony2. See autoload.php for an example.
 
 - Create a PaymentRequest, containing all the info needed by Sips.
-- Generate  a form
 - Submit it to Sips (client side)
 - Receive a PaymentResponse back from Sips (as a HTTP Request)
 
 Both PaymentRequest and PaymentResponse are authenticated by comparing the SHA sign,
 which is a hash of the parameters and a secret passphrase. You can create the hash using a ShaComposer.
 
-# SHA Composers #
+# SHA Composer #
 
 Sips method to generate a SHA sign:
 
