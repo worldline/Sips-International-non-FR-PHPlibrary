@@ -5,6 +5,7 @@ namespace Sips;
 use Sips\ShaComposer\ShaComposer;
 use \BadMethodCallException;
 use \InvalidArgumentException;
+use Sips\Normalizer;
 
 class PaymentRequest
 {
@@ -164,7 +165,7 @@ class PaymentRequest
         if(strlen($street) > 35) {
             throw new InvalidArgumentException("street is too long");
         }
-        $this->parameters['billingAddress.street'] = $street;
+        $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
     }
 
     public function setBillingAddressStreetNumber($nr)
@@ -172,7 +173,7 @@ class PaymentRequest
         if(strlen($nr) > 10) {
             throw new InvalidArgumentException("streetNumber is too long");
         }
-        $this->parameters['billingAddress.streetNumber'] = $nr;
+        $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
     }
 
     public function setBillingAddressZipCode($zipCode)
@@ -180,7 +181,7 @@ class PaymentRequest
         if(strlen($zipCode) > 10) {
             throw new InvalidArgumentException("zipCode is too long");
         }
-        $this->parameters['billingAddress.zipCode'] = $zipCode;
+        $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
     }
 
     public function setBillingAddressCity($city)
@@ -188,7 +189,7 @@ class PaymentRequest
         if(strlen($city) > 25) {
             throw new InvalidArgumentException("city is too long");
         }
-        $this->parameters['billingAddress.city'] = $city;
+        $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
     }
 
     public function setBillingContactPhone($phone)
@@ -201,12 +202,12 @@ class PaymentRequest
 
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', $firstname); // replace quotes
+        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', Normalizer::normalize($firstname)); // replace quotes
     }
 
     public function setBillingContactLastname($lastname)
     {
-        $this->parameters['billingContact.lastname'] = str_replace(array("'", '"'), '', $lastname); // replace quotes
+        $this->parameters['billingContact.lastname'] = str_replace(array("'", '"'), '', Normalizer::normalize($lastname)); // replace quotes
     }
 
     public function __call($method, $args)

@@ -104,6 +104,34 @@ class PaymentRequestTest extends \TestCase
 
     /**
      * @test
+     */
+    public function BillingInfoIsNormalized()
+    {
+        $paymentRequest = $this->provideMinimalPaymentRequest();
+        $paymentRequest->setBillingContactFirstname("Mâthìéû");
+        $paymentRequest->setBillingContactLastname("Dùffélèr");
+        $paymentRequest->setBillingAddressStreet("Wàndéllâän");
+        $paymentRequest->setBillingAddressStreetNumber("56");
+        $paymentRequest->setBillingAddressCity("Wìélsbèkê");
+        $paymentRequest->setBillingAddressZipCode("8710");
+        $paymentRequest->setBillingContactEmail("mathieu@duffeler.be");
+        $paymentRequest->setBillingContactPhone("+32472442151");
+
+
+        $arrayRepresentation = $paymentRequest->toArray();
+
+        $this->assertEquals('Mathieu', $arrayRepresentation['billingContact.firstname']);
+        $this->assertEquals('Duffeler', $arrayRepresentation['billingContact.lastname']);
+        $this->assertEquals('Wandellaan', $arrayRepresentation['billingAddress.street']);
+        $this->assertEquals('56', $arrayRepresentation['billingAddress.streetNumber']);
+        $this->assertEquals('Wielsbeke', $arrayRepresentation['billingAddress.city']);
+        $this->assertEquals('8710', $arrayRepresentation['billingAddress.zipCode']);
+        $this->assertEquals('mathieu@duffeler.be', $arrayRepresentation['billingContact.email']);
+        $this->assertEquals('+32472442151', $arrayRepresentation['billingContact.phone']);
+    }
+
+    /**
+     * @test
      * @expectedException \InvalidArgumentException
      */
     public function InvalidBillingContactEmailThrowsException()
