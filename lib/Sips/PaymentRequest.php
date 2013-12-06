@@ -9,8 +9,9 @@ use Sips\Normalizer;
 
 class PaymentRequest
 {
-    const TEST = "https://payment-webinit.simu.sips-atos.com/paymentInit";
-    const PRODUCTION = "https://payment-webinit.test.sips-atos.com/paymentInit";
+    const SIMU = "https://payment-webinit.simu.sips-atos.com/paymentInit";
+    const TEST = "https://payment-webinit.test.sips-atos.com/paymentInit";
+    const PRODUCTION = "https://payment-webinit.sips-atos.com/paiementInit";
 
     private $brandsmap = array(
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
