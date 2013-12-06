@@ -11,7 +11,7 @@ class PaymentRequest
 {
     const SIMU = "https://payment-webinit.simu.sips-atos.com/paymentInit";
     const TEST = "https://payment-webinit.test.sips-atos.com/paymentInit";
-    const PRODUCTION = "https://payment-webinit.sips-atos.com/paiementInit";
+    const PRODUCTION = "https://payment-webinit.sips-atos.com/paymentInit";
 
     private $brandsmap = array(
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
