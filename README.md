@@ -12,7 +12,7 @@ As always, this is work in progress. Please feel free to fork this project and l
 
 ## Overview ##
 
-The library complies to the [PSR-0 standard](http://groups.google.com/group/php-standards/web/psr-0-final-proposal),
+The library complies to the [PSR-0 standard](http://www.sitepoint.com/autoloading-and-the-psr-0-standard/),
 so it can be autoloaded using PSR-0 classloaders like the one in Symfony2. See autoload.php for an example.
 
 - Create a PaymentRequest, containing all the info needed by Sips.
