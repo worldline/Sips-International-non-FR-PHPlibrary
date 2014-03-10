@@ -75,7 +75,6 @@ class PaymentResponse
         }
 
         return $parameters;
-        //return array_intersect_key($parameters, array_flip($this->sipsFields));
     }
 
     public function getSeal()
