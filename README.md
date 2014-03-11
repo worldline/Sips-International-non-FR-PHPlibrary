@@ -86,9 +86,9 @@ Sips method to generate a SHA sign:
 
 # PaymentResponse #
 
-The `PaymentResponse` is typically used in a separate endpoint that is available to SIPS. This URL will be used by the SIPS platform ti inform the Merchant whether the payment was successful. 
+The `PaymentResponse` is typically used in a separate endpoint that is available to SIPS. This URL will be used by the SIPS platform to inform the Merchant whether the payment was successful.
 
-Checking whether the payment is successful relies on checking if `RESPONSECODE` parameter is `00` or `60`.
+Checking whether the payment is successful relies on checking if the `RESPONSECODE` parameter is `00` or `60`.
 
 ```php
   	<?php
