@@ -32,6 +32,8 @@ class PaymentRequest
         'VISA' => 'CARD',
         'VPAY' => 'CARD',
         'VISA ELECTRON' => 'CARD',
+        'CBCONLINE' => 'CREDIT_TRANSFER',
+        'KBCONLINE' => 'CREDIT_TRANSFER'
     );
 
     /** @var ShaComposer */
