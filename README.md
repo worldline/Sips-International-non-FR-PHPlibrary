@@ -1,6 +1,6 @@
 # Sips PHP library #
 
-This library allows you to easily implement an [Sips] integration into your project.
+This library allows you to easily implement a [Sips] integration into your project.
 It provides the necessary components to complete a correct payment flow with the [Sips] platform.
 
 Requirements:
@@ -8,12 +8,18 @@ Requirements:
 - PHP 5.3
 - network connection between your webserver and the Sips platform
 
-As always, this is work in progress. Please feel free to fork this project and let them pull requests coming!
+The SIPS platform can be reached through the following URL's:
+
+- SIMU: https://payment-webinit.simu.sips-atos.com/paymentInit
+- TEST: https://payment-webinit.test.sips-atos.com/paymentInit
+- PRODUCTION: https://payment-webinit.sips-atos.com/paymentInit
 
 ## Overview ##
 
 The library complies to the [PSR-0 standard](http://www.sitepoint.com/autoloading-and-the-psr-0-standard/),
 so it can be autoloaded using PSR-0 classloaders like the one in Symfony2. See autoload.php for an example.
+
+The library supports the use of [Composer](http://getcomposer.org).
 
 - Create a PaymentRequest, containing all the info needed by Sips.
 - Submit it to Sips (client side)
@@ -65,7 +71,8 @@ Sips method to generate a SHA sign:
 
 	$paymentRequest->validate();
 
-	// Create Http client to send the paymentRequest.
+	// Create Http client to send the paymentRequest
+    // We use Zend_Http_Client here, feel free to use your favourite HTTP client library
 	$client = new Zend_Http_Client($paymentRequest->getSipsUri());
 	$client->setParameterPost('Data', $paymentRequest->toParameterString());
     $client->setParameterPost('InterfaceVersion', '<Sips interfaceVersion>');
@@ -78,6 +85,10 @@ Sips method to generate a SHA sign:
 ```
 
 # PaymentResponse #
+
+The `PaymentResponse` is typically used in a separate endpoint that is available to SIPS. This URL will be used by the SIPS platform to inform the Merchant whether the payment was successful.
+
+Checking whether the payment is successful relies on checking if the `RESPONSECODE` parameter is `00` or `60`.
 
 ```php
   	<?php
@@ -98,3 +109,10 @@ Sips method to generate a SHA sign:
 		// perform logic when the validation fails
 	}
 ```
+
+## Running the tests ##
+
+The test suite requires PHPUnit to run. Simply run `phpunit` from the root of the project.
+
+```sh
+    phpunit
