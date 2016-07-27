@@ -9,7 +9,7 @@ class AllParametersShaComposerTest extends \TestCase
 {
     /**
      * @test
-     * @dataProvider provideRequest          
+     * @dataProvider provideRequest
      */
     public function ShaStringIsComposedCorrectly(Passphrase $passphrase, array $request, $expectedSha)
     {

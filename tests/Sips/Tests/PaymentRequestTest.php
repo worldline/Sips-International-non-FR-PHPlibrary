@@ -237,7 +237,7 @@ class PaymentRequestTest extends \TestCase
                     )
                     ->will($this->returnValue('seal'));
 
-        $this->assertEquals('seal',$paymentRequest->getShaSign());
+        $this->assertEquals('seal', $paymentRequest->getShaSign());
     }
 
     /**
@@ -246,7 +246,7 @@ class PaymentRequestTest extends \TestCase
     public function CanGetSipsUri()
     {
         $paymentRequest = $this->provideMinimalPaymentRequest();
-        $this->assertEquals(PaymentRequest::TEST,$paymentRequest->getSipsUri());
+        $this->assertEquals(PaymentRequest::TEST, $paymentRequest->getSipsUri());
     }
 
     /**
@@ -256,7 +256,7 @@ class PaymentRequestTest extends \TestCase
     {
         $paymentRequest = $this->provideMinimalPaymentRequest();
         $paymentRequest->setAutomaticResponseUrl("http://sips.webshop.marlon.be");
-        $this->assertEquals("http://sips.webshop.marlon.be",$paymentRequest->getautomaticResponseUrl());
+        $this->assertEquals("http://sips.webshop.marlon.be", $paymentRequest->getautomaticResponseUrl());
     }
 
     /**
@@ -276,7 +276,7 @@ class PaymentRequestTest extends \TestCase
     {
         $paymentRequest = $this->provideMinimalPaymentRequest();
         $paymentRequest->setPaymentBrand("BCMC");
-        $this->assertEquals("BCMC",$paymentRequest->getPaymentMeanBrandList());
+        $this->assertEquals("BCMC", $paymentRequest->getPaymentMeanBrandList());
     }
 
     /**
@@ -305,7 +305,7 @@ class PaymentRequestTest extends \TestCase
     public function CanGenerateParameterString()
     {
         $paymentRequest = $this->provideMinimalPaymentRequest();
-        $this->assertEquals("merchantId=002001000000001|normalReturnUrl=http://www.normalreturnurl.com|transactionReference=123456|keyVersion=1|amount=100|currencyCode=978",$paymentRequest->toParameterString());
+        $this->assertEquals("merchantId=002001000000001|normalReturnUrl=http://www.normalreturnurl.com|transactionReference=123456|keyVersion=1|amount=100|currencyCode=978", $paymentRequest->toParameterString());
     }
 
     /**
@@ -315,5 +315,5 @@ class PaymentRequestTest extends \TestCase
     public function CreateFromArrayInvalid()
     {
         $paymentRequest = PaymentRequest::createFromArray(new FakeShaComposer, array('language'=>'West-Vlaams'));
-    }            
+    }
 }

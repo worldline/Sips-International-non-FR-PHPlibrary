@@ -4,20 +4,20 @@ namespace Sips;
 
 final class Passphrase
 {
-    /**    
-     * @var string 
+    /**
+     * @var string
      */
     private $passphrase;
     
     public function __construct($passphrase)
     {
-        if(!is_string($passphrase)) {
+        if (!is_string($passphrase)) {
             throw new \InvalidArgumentException("String expected");
         }
         $this->passphrase = $passphrase;
     }
     
-    /**     
+    /**
      * String representation
      */
     public function __toString()

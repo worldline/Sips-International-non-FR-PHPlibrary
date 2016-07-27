@@ -2,7 +2,8 @@
 
 namespace Sips;
 
-class Normalizer {
+class Normalizer
+{
 
     private static $invalid = array(
         'Š'=>'S', 'š'=>'s', 'Đ'=>'Dj', 'đ'=>'dj', 'Ž'=>'Z', 'ž'=>'z',

@@ -4,7 +4,8 @@ namespace Sips;
 
 use \InvalidArgumentException;
 
-class SipsCurrency {
+class SipsCurrency
+{
 
     private static $currencies = array(
         'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
@@ -17,15 +18,17 @@ class SipsCurrency {
 
     public static function convertCurrencyToSipsCurrencyCode($currency)
     {
-        if(!in_array($currency, array_keys(self::$currencies)))
+        if (!in_array($currency, array_keys(self::$currencies))) {
             throw new InvalidArgumentException("Unknown currencyCode $currency.");
+        }
         return self::$currencies[$currency];
     }
 
     public static function convertSipsCurrencyCodeToCurrency($code)
     {
-        if(!in_array($code, array_values(self::$currencies)))
+        if (!in_array($code, array_values(self::$currencies))) {
             throw new InvalidArgumentException("Unknown sipsCode $code.");
+        }
         return array_search($code, self::$currencies);
     }
 

@@ -48,7 +48,7 @@ class PaymentResponse
         // use lowercase internally
         $httpRequest = array_change_key_case($httpRequest, CASE_UPPER);
 
-        // set sha sign        
+        // set sha sign
         $this->shaSign = $this->extractShaSign($httpRequest);
 
         // filter request for Sips parameters
@@ -62,15 +62,15 @@ class PaymentResponse
     private function filterRequestParameters(array $httpRequest)
     {
         //filter request for Sips parameters
-        if(!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
+        if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
             throw new InvalidArgumentException('Data parameter not present in parameters.');
         }
         $parameters = array();
         $dataString = $httpRequest[self::DATA_FIELD];
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
-        foreach($dataParams as $dataParamString) {
-            $dataKeyValue = explode('=',$dataParamString,2);
+        foreach ($dataParams as $dataParamString) {
+            $dataKeyValue = explode('=', $dataParamString, 2);
             $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
         }
 
@@ -84,7 +84,7 @@ class PaymentResponse
 
     private function extractShaSign(array $parameters)
     {
-        if(!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
+        if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
             throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
         }
         return $parameters[self::SHASIGN_FIELD];
@@ -107,14 +107,14 @@ class PaymentResponse
      */
     public function getParam($key)
     {
-        if(method_exists($this, 'get'.$key)) {
+        if (method_exists($this, 'get'.$key)) {
             return $this->{'get'.$key}();
         }
 
         // always use uppercase
         $key = strtoupper($key);
-        $parameters = array_change_key_case($this->parameters,CASE_UPPER);
-        if(!array_key_exists($key, $parameters)) {
+        $parameters = array_change_key_case($this->parameters, CASE_UPPER);
+        if (!array_key_exists($key, $parameters)) {
             throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');
         }
 

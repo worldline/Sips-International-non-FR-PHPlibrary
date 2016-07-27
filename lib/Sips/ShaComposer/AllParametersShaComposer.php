@@ -25,7 +25,7 @@ class AllParametersShaComposer implements ShaComposer
     {
         // compose SHA string
         $shaString = '';
-        foreach($parameters as $key => $value) {
+        foreach ($parameters as $key => $value) {
             $shaString .= $key . '=' . $value;
             $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters)-1)) ? '|' : $this->passphrase;
         }
