@@ -16,7 +16,7 @@ class PaymentResponseTest extends \TestCase
         $aRequest = $this->provideRequest();
         
         $paymentResponse = new PaymentResponse($aRequest);
-        $shaComposer = $this->getMock('Sips\ShaComposer\ShaComposer');
+        $shaComposer = $this->createMock('Sips\ShaComposer\ShaComposer');
 
         $shaComposer->expects($this->once())
                     ->method('compose')
