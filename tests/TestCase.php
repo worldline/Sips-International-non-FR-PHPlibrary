@@ -24,7 +24,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         $paymentRequest->setAmount(100);
         $paymentRequest->setCurrency("EUR");
         
-        return $paymentRequest;        
+        return $paymentRequest;
     }
     
     /** @return PaymentRequest */

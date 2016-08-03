@@ -106,47 +106,46 @@ class PaymentRequest
 
     public function setTransactionReference($transactionReference)
     {
-        if(preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
+        if (preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
             throw new \InvalidArgumentException("TransactionReference cannot contain special characters");
         }
         $this->parameters['transactionReference'] = $transactionReference;
     }
 
     /**
-	 * Set amount in cents, eg EUR 12.34 is written as 1234
-	 */
-	public function setAmount($amount)
-	{
-		if(!is_int($amount)) {
-			throw new InvalidArgumentException("Integer expected. Amount is always in cents");
-		}
-		if($amount <= 0) {
-			throw new InvalidArgumentException("Amount must be a positive number");
-		}
-		$this->parameters['amount'] = $amount;
-
-	}
+     * Set amount in cents, eg EUR 12.34 is written as 1234
+     */
+    public function setAmount($amount)
+    {
+        if (!is_int($amount)) {
+            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+        }
+        if ($amount <= 0) {
+            throw new InvalidArgumentException("Amount must be a positive number");
+        }
+        $this->parameters['amount'] = $amount;
+    }
 
     public function setCurrency($currency)
-	{
-		if(!array_key_exists(strtoupper($currency), SipsCurrency::getCurrencies())) {
-			throw new InvalidArgumentException("Unknown currency");
-		}
-		$this->parameters['currencyCode'] = SipsCurrency::convertCurrencyToSipsCurrencyCode($currency);
-	}
+    {
+        if (!array_key_exists(strtoupper($currency), SipsCurrency::getCurrencies())) {
+            throw new InvalidArgumentException("Unknown currency");
+        }
+        $this->parameters['currencyCode'] = SipsCurrency::convertCurrencyToSipsCurrencyCode($currency);
+    }
 
-	public function setLanguage($language)
-	{
-		if(!in_array($language, $this->allowedlanguages)) {
-			throw new InvalidArgumentException("Invalid language locale");
-		}
-		$this->parameters['customerLanguage'] = $language;
-	}
+    public function setLanguage($language)
+    {
+        if (!in_array($language, $this->allowedlanguages)) {
+            throw new InvalidArgumentException("Invalid language locale");
+        }
+        $this->parameters['customerLanguage'] = $language;
+    }
 
     public function setPaymentBrand($brand)
     {
         $this->parameters['paymentMeanBrandList'] = '';
-        if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
+        if (!array_key_exists(strtoupper($brand), $this->brandsmap)) {
             throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
@@ -154,10 +153,10 @@ class PaymentRequest
 
     public function setBillingContactEmail($email)
     {
-        if(strlen($email) > 50) {
+        if (strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
         }
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
@@ -165,7 +164,7 @@ class PaymentRequest
 
     public function setBillingAddressStreet($street)
     {
-        if(strlen($street) > 35) {
+        if (strlen($street) > 35) {
             throw new InvalidArgumentException("street is too long");
         }
         $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
@@ -173,7 +172,7 @@ class PaymentRequest
 
     public function setBillingAddressStreetNumber($nr)
     {
-        if(strlen($nr) > 10) {
+        if (strlen($nr) > 10) {
             throw new InvalidArgumentException("streetNumber is too long");
         }
         $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
@@ -181,7 +180,7 @@ class PaymentRequest
 
     public function setBillingAddressZipCode($zipCode)
     {
-        if(strlen($zipCode) > 10) {
+        if (strlen($zipCode) > 10) {
             throw new InvalidArgumentException("zipCode is too long");
         }
         $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
@@ -189,7 +188,7 @@ class PaymentRequest
 
     public function setBillingAddressCity($city)
     {
-        if(strlen($city) > 25) {
+        if (strlen($city) > 25) {
             throw new InvalidArgumentException("city is too long");
         }
         $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
@@ -197,7 +196,7 @@ class PaymentRequest
 
     public function setBillingContactPhone($phone)
     {
-        if(strlen($phone) > 30) {
+        if (strlen($phone) > 30) {
             throw new InvalidArgumentException("phone is too long");
         }
         $this->parameters['billingContact.phone'] = $phone;
@@ -215,17 +214,17 @@ class PaymentRequest
 
     public function __call($method, $args)
     {
-        if(substr($method, 0, 3) == 'set') {
+        if (substr($method, 0, 3) == 'set') {
             $field = lcfirst(substr($method, 3));
-            if(in_array($field, $this->sipsFields)) {
+            if (in_array($field, $this->sipsFields)) {
                 $this->parameters[$field] = $args[0];
                 return;
             }
         }
 
-        if(substr($method, 0, 3) == 'get') {
+        if (substr($method, 0, 3) == 'get') {
             $field = lcfirst(substr($method, 3));
-            if(array_key_exists($field, $this->parameters)) {
+            if (array_key_exists($field, $this->parameters)) {
                 return $this->parameters[$field];
             }
         }
@@ -242,7 +241,7 @@ class PaymentRequest
     public function toParameterString()
     {
         $parameterString = "";
-        foreach($this->parameters as $key => $value) {
+        foreach ($this->parameters as $key => $value) {
             $parameterString .= $key . '=' . $value;
             $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters)-1)) ? '|' : '';
         }
@@ -254,8 +253,7 @@ class PaymentRequest
     public static function createFromArray(ShaComposer $shaComposer, array $parameters)
     {
         $instance = new static($shaComposer);
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $instance->{"set$key"}($value);
         }
         return $instance;
@@ -263,8 +261,8 @@ class PaymentRequest
 
     public function validate()
     {
-        foreach($this->requiredFields as $field) {
-            if(empty($this->parameters[$field])) {
+        foreach ($this->requiredFields as $field) {
+            if (empty($this->parameters[$field])) {
                 throw new \RuntimeException($field . " can not be empty");
             }
         }
@@ -272,10 +270,10 @@ class PaymentRequest
 
     protected function validateUri($uri)
     {
-        if(!filter_var($uri, FILTER_VALIDATE_URL)) {
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException("Uri is not valid");
         }
-        if(strlen($uri) > 200) {
+        if (strlen($uri) > 200) {
             throw new InvalidArgumentException("Uri is too long");
         }
     }

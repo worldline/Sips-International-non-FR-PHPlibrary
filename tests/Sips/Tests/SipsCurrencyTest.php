@@ -28,7 +28,7 @@ class SipsCurrencyTest extends \TestCase
      */
     public function CanConvertSipsCurrencyCodeToCurrency()
     {
-        $this->assertEquals("EUR",SipsCurrency::convertSipsCurrencyCodeToCurrency(978));
+        $this->assertEquals("EUR", SipsCurrency::convertSipsCurrencyCodeToCurrency(978));
     }
 
     /**
@@ -36,7 +36,7 @@ class SipsCurrencyTest extends \TestCase
      */
     public function CanConvertCurrencyToSipsCurrencyCode()
     {
-        $this->assertEquals("978",SipsCurrency::convertCurrencyToSipsCurrencyCode('EUR'));
+        $this->assertEquals("978", SipsCurrency::convertCurrencyToSipsCurrencyCode('EUR'));
     }
 
     /**

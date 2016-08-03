@@ -119,7 +119,7 @@ class PaymentResponseTest extends \TestCase
         $aRequest = $this->provideRequest();
 
         $paymentResponse = new PaymentResponse($aRequest);
-        $this->assertEquals("captureDay=0|captureMode=IMMEDIATE|currencyCode=978|merchantId=225005000270001|orderChannel=INTERNET|responseCode=00|transactionDateTime=2013-11-13T15:30:27+01:00|transactionReference=marlon8452838c8ae08aa|keyVersion=1|acquirerResponseCode=00|amount=3|authorisationId=009852|guaranteeIndicator=Y|cardCSCResultCode=|panExpiryDate=201709|paymentMeanBrand=BCMC|paymentMeanType=CARD|complementaryCode=|complementaryInfo=|customerIpAddress=193.58.82.178|maskedPan=6703###########12|merchantTransactionDateTime=2013-11-13T15:28:27+01:00|scoreValue=0.0|scoreColor=GREEN|scoreInfo=A3;N#SC;N;TRANS=2:2;CUMUL=5:250000|scoreProfile=25|scoreThreshold=-10.0|holderAuthentRelegation=N|holderAuthentStatus=3D_SUCCESS|transactionOrigin=INTERNET|paymentPattern=ONE_SHOT|customerMobilePhone=null|mandateAuthentMethod=null|mandateUsage=null|transactionActors=null|mandateId=null|captureLimitDate=null|dccStatus=null|dccResponseCode=null|dccAmount=null|dccCurrencyCode=null|dccExchangeRate=null|dccExchangeRateValidity=null|dccProvider=null|statementReference=null|panEntryMode=null|walletType=null|holderAuthentMethod=null",$paymentResponse->getDataString());
+        $this->assertEquals("captureDay=0|captureMode=IMMEDIATE|currencyCode=978|merchantId=225005000270001|orderChannel=INTERNET|responseCode=00|transactionDateTime=2013-11-13T15:30:27+01:00|transactionReference=marlon8452838c8ae08aa|keyVersion=1|acquirerResponseCode=00|amount=3|authorisationId=009852|guaranteeIndicator=Y|cardCSCResultCode=|panExpiryDate=201709|paymentMeanBrand=BCMC|paymentMeanType=CARD|complementaryCode=|complementaryInfo=|customerIpAddress=193.58.82.178|maskedPan=6703###########12|merchantTransactionDateTime=2013-11-13T15:28:27+01:00|scoreValue=0.0|scoreColor=GREEN|scoreInfo=A3;N#SC;N;TRANS=2:2;CUMUL=5:250000|scoreProfile=25|scoreThreshold=-10.0|holderAuthentRelegation=N|holderAuthentStatus=3D_SUCCESS|transactionOrigin=INTERNET|paymentPattern=ONE_SHOT|customerMobilePhone=null|mandateAuthentMethod=null|mandateUsage=null|transactionActors=null|mandateId=null|captureLimitDate=null|dccStatus=null|dccResponseCode=null|dccAmount=null|dccCurrencyCode=null|dccExchangeRate=null|dccExchangeRateValidity=null|dccProvider=null|statementReference=null|panEntryMode=null|walletType=null|holderAuthentMethod=null", $paymentResponse->getDataString());
     }
 
     /**
@@ -239,6 +239,4 @@ class PaymentResponseTest extends \TestCase
             "InterfaceVersion" => "HP_2.4"
         );
     }
-
-    
 }

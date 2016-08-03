@@ -4,7 +4,8 @@ namespace Sips\Tests;
 
 use Sips\Normalizer;
 
-class NormalizerTest extends \TestCase {
+class NormalizerTest extends \TestCase
+{
 
     /**
      * @test
