@@ -205,7 +205,7 @@ class PaymentRequestTest extends \TestCase
      */
     public function GetShaSign()
     {
-        $shaComposer = $this->getMock('Sips\ShaComposer\ShaComposer');
+        $shaComposer = $this->createMock('Sips\ShaComposer\ShaComposer');
         $paymentRequest = PaymentRequest::createFromArray($shaComposer, array(
             'merchantId' => '002001000000001',
             'normalReturnUrl' => 'http://www.normalreturnurl.com',

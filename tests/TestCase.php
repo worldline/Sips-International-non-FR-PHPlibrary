@@ -2,8 +2,8 @@
 
 use Sips\Tests\ShaComposer\FakeShaComposer;
 use Sips\PaymentRequest;
+use PHPUnit_Framework_TestCase;
 
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once __DIR__.'/Sips/Tests/ShaComposer/FakeShaComposer.php';
 
 abstract class TestCase extends PHPUnit_Framework_TestCase
