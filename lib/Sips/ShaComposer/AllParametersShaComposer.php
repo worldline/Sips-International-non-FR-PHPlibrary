@@ -11,7 +11,7 @@ class AllParametersShaComposer implements ShaComposer
     /**
      * @var string Passphrase
      */
-    private $passphrase;
+    protected $passphrase;
 
     /**
      * @param \Sips\Passphrase $passphrase

@@ -13,7 +13,7 @@ class PaymentRequest
     const TEST = "https://payment-webinit.test.sips-atos.com/paymentInit";
     const PRODUCTION = "https://payment-webinit.sips-atos.com/paymentInit";
 
-    private $brandsmap = array(
+    protected $brandsmap = array(
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
         'AMEX' => 'CARD',
         'BCMC' => 'CARD',
@@ -37,13 +37,13 @@ class PaymentRequest
     );
 
     /** @var ShaComposer */
-    private $shaComposer;
+    protected $shaComposer;
 
-    private $sipsUri = self::TEST;
+    protected $sipsUri = self::TEST;
 
-    private $parameters = array();
+    protected $parameters = array();
 
-    private $sipsFields = array(
+    protected $sipsFields = array(
         'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
         'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage',
         'billingAddress.city', 'billingAddress.company', 'billingAddress.country',
@@ -60,12 +60,12 @@ class PaymentRequest
         'templateName','paymentMeanBrandList'
     );
 
-    private $requiredFields = array(
+    protected $requiredFields = array(
         'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
         'transactionReference', 'keyVersion'
     );
 
-    public $allowedlanguages = array(
+    protected $allowedlanguages = array(
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
     );
 
