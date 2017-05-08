@@ -7,7 +7,7 @@ final class Passphrase
     /**
      * @var string
      */
-    private $passphrase;
+    protected $passphrase;
     
     public function __construct($passphrase)
     {

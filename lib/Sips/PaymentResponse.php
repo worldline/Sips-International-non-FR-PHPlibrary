@@ -13,7 +13,7 @@ class PaymentResponse
     /** @var string */
     const DATA_FIELD = "DATA";
 
-    private $sipsFields = array(
+    protected $sipsFields = array(
         "captureDay", "captureMode", "currencyCode", "merchantId",
         "orderChannel", "responseCode", "transactionDateTime", "transactionReference",
         "keyVersion", "acquirerResponseCode", "amount", "authorisationId",
@@ -30,14 +30,14 @@ class PaymentResponse
     /**
      * @var array
      */
-    private $parameters;
+    protected $parameters;
 
     /**
      * @var string
      */
-    private $shaSign;
+    protected $shaSign;
 
-    private $dataString;
+    protected $dataString;
 
     /**
      * @param array $httpRequest Typically $_REQUEST
@@ -59,7 +59,7 @@ class PaymentResponse
      * Filter http request parameters
      * @param array $requestParameters
      */
-    private function filterRequestParameters(array $httpRequest)
+    protected function filterRequestParameters(array $httpRequest)
     {
         //filter request for Sips parameters
         if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
@@ -82,7 +82,7 @@ class PaymentResponse
         return $this->shaSign;
     }
 
-    private function extractShaSign(array $parameters)
+    protected function extractShaSign(array $parameters)
     {
         if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
             throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
