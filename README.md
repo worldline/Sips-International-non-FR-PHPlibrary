@@ -10,9 +10,9 @@ Requirements:
 
 The SIPS platform can be reached through the following URL's:
 
-- SIMU: https://payment-webinit.simu.sips-atos.com/paymentInit
-- TEST: https://payment-webinit.test.sips-atos.com/paymentInit
-- PRODUCTION: https://payment-webinit.sips-atos.com/paymentInit
+- SIMU: https://payment-webinit.simu.sips-services.com/paymentInit
+- TEST: https://payment-webinit.test.sips-services.com/paymentInit
+- PRODUCTION: https://payment-webinit.sips-services.com/paymentInit
 
 ## Overview ##
 
